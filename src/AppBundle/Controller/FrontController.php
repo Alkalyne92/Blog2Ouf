@@ -8,24 +8,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Entity\Article;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class FrontController extends Controller
 {
-    /**
-     * @Route("/", name="front")
-     */
-    public function indexAction(Request $request)
-    {
-        // replace this example code with whatever you need
-        return $this->render('front/index.html.twig');
-    }
-
-
 
     /**
-     * @Route("/list", name="list")
+     * @Route("/", name="list")
      */
     public function listArticle(Request $request)
     {
@@ -48,12 +39,13 @@ class FrontController extends Controller
     {
           // create a task and give it some dummy data for this example
         $article = new Article();
-
+        $article->setAuthor('user');
 
 
         $form = $this->createFormBuilder($article)
-            ->add('Name', TextType::class)
-            ->add('Content', DateType::class)
+            ->add('name', TextType::class, array('label' => 'Nom'))
+            ->add('content', TextareaType::class, array('label' => 'Contenu'))
+            ->add('date', DateType::class, array('label' => 'Date de parution'))
             ->add('save', SubmitType::class, array('label' => 'Create Post'))
             ->getForm();
 
@@ -70,10 +62,10 @@ class FrontController extends Controller
            $em->persist($article);
            $em->flush();
 
-           return $this->redirectToRoute('/list');
+           return $this->redirectToRoute('list');
        }
 
-       return $this->render('front/list.html.twig', array(
+       return $this->render('front/create.html.twig', array(
            'form' => $form->createView(),
        ));
 

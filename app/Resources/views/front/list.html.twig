@@ -9,14 +9,11 @@
 
        <h2>   {{ article.name }}      </h2>
        <p>    {{ article.content }}    </p>
-       <p><i> Ecrit par  <strong>{{ article.author }}</strong>  le  {{ article.date }}  </i>
+       <p><i> Ecrit par  <strong>{{ article.author }}</strong>  le  {{ article.date|date("d/m/Y") }}  </i>
        <br>   Catégorie : {{ article.category }}
        <br>   Tag : {{ article.tag }}  </p>
 
   {% endfor %}
 </ul>
 
-{{ form_start(form) }}
-{{ form_widget(form) }}
-{{ form_end(form) }}
 {% endblock body %}
